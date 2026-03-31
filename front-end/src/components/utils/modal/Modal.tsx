@@ -29,7 +29,7 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
       <div className="relative bg-white rounded-2xl shadow-lg py-6 px-9 w-[50%] z-10">
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-black"
+          className="absolute top-3 right-3 text-gray-500 hover:text-black cursor-pointer"
         >
           ✕
         </button>

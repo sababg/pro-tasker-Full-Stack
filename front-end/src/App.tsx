@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Routes } from "react-router";
 import Navbar from "./components/navbar/Navbar";
-import Register from "./components/register/Register";
+import Register from "./components/registerOrLogin/Register";
 import { Modal } from "./components/utils/modal/Modal";
 
 function App() {

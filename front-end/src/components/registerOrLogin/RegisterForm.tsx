@@ -8,13 +8,15 @@ type Inputs = {
   confirmPassword: string;
 };
 
-const Register: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({
+    mode: "all",
+  });
   const [message, setMessage] = React.useState<string | null>(null);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -32,7 +34,6 @@ const Register: React.FC = () => {
         return;
       }
 
-      // store token (if returned) and show success
       if (json.token) {
         localStorage.setItem("token", json.token);
       }
@@ -49,7 +50,7 @@ const Register: React.FC = () => {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-start justify-start gap-3.5 w-full"
+        className="flex flex-col items-start justify-start gap-5 w-[95%]"
       >
         <div className="flex flex-col items-start justify-start gap-2 w-full">
           <label htmlFor="username">Username</label>
@@ -57,10 +58,12 @@ const Register: React.FC = () => {
             {...register("username", { required: true })}
             placeholder="Enter your username"
             type="text"
-            className="w-[50%] border-Green400 border border-solid px-3 py-2 rounded-xl outline-none"
+            className={`w-full border-Green400 border border-solid px-3 py-2 rounded-xl outline-none ${errors.username ? "border-Red400" : ""}`}
           />
           {errors.username && (
-            <span className="inline-block">This field is required</span>
+            <span className="inline-block text-Red400">
+              This field is required
+            </span>
           )}
         </div>
         <div className="flex flex-col items-start justify-start gap-2 w-full">
@@ -69,10 +72,12 @@ const Register: React.FC = () => {
             {...register("email", { required: true })}
             placeholder="Enter your email"
             type="email"
-            className="w-[50%] border-Green400 border border-solid px-3 py-2 rounded-xl outline-none"
+            className={`w-full border-Green400 border border-solid px-3 py-2 rounded-xl outline-none ${errors.email ? "border-Red400" : ""}`}
           />
           {errors.email && (
-            <span className="inline-block">This field is required</span>
+            <span className="inline-block text-Red400">
+              {errors.email.message}
+            </span>
           )}
         </div>
         <div className="flex flex-col items-start justify-start gap-2 w-full">
@@ -93,10 +98,12 @@ const Register: React.FC = () => {
             })}
             type="password"
             placeholder="Enter your password"
-            className="w-[50%] border-Green400 border border-solid px-3 py-2 rounded-xl outline-none"
+            className={`w-full border-Green400 border border-solid px-3 py-2 rounded-xl outline-none ${errors.password ? "border-Red400" : ""}`}
           />
           {errors.password && (
-            <span className="inline-block">{errors.password.message}</span>
+            <span className="inline-block text-Red400">
+              {errors.password.message}
+            </span>
           )}
         </div>
         <div className="flex flex-col items-start justify-start gap-2 w-full">
@@ -119,20 +126,23 @@ const Register: React.FC = () => {
             })}
             type="password"
             placeholder="Enter your password"
-            className="w-[50%] border-Green400 border border-solid px-3 py-2 rounded-xl outline-none"
+            className={`w-full border-Green400 border border-solid px-3 py-2 rounded-xl outline-none ${errors.confirmPassword ? "border-Red400" : ""}`}
           />
           {errors.confirmPassword && (
-            <span className="inline-block">
+            <span className="inline-block text-Red400">
               {errors.confirmPassword.message}
             </span>
           )}
         </div>
 
-        <input type="submit" />
+        <input
+          type="submit"
+          className="border border-Green400 px-3 py-2 rounded-2xl cursor-pointer"
+        />
         {message && <div className="mt-2 text-sm">{message}</div>}
       </form>
     </>
   );
 };
 
-export default Register;
+export default RegisterForm;
