@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
-const generateToken = (id: string) => {
+const generateToken = (id: mongoose.Types.ObjectId) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || "", {
-    expiresIn: "30d",
+    expiresIn: "2d",
   });
 };
 

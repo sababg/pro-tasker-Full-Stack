@@ -1,7 +1,17 @@
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema(
+export interface IUser extends Document {
+  username: string;
+  email: string;
+  password: string;
+  role: "user" | "admin";
+  isCorrectPassword(candidatePassword: string): Promise<boolean>;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const userSchema: mongoose.Schema<IUser> = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -11,7 +21,11 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      minLength: 6,
+      minLength: [6, "Password must be at least 6 characters"],
+      match: [
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#^()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
+        "Password must include uppercase, lowercase, number, and special character",
+      ],
     },
     email: {
       type: String,
@@ -37,6 +51,6 @@ userSchema.methods.isCorrectPassword = async function (password: string) {
   return bcrypt.compare(password, this.password);
 };
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model<IUser>("User", userSchema);
 
 export default User;
