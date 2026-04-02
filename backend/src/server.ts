@@ -2,6 +2,7 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import "./db/connection";
+import projectRoutes from "./routes/projectRoutes";
 import userRoutes from "./routes/userRoutes";
 
 const app = express();
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", userRoutes);
+app.use("/api/projects", projectRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
