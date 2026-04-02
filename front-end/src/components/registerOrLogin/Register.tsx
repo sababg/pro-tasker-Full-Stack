@@ -4,31 +4,35 @@ import RegisterPic from "../../assets/register.png";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 
-const Register: React.FC = () => {
+interface RegisterProps {
+  handleClose: () => void;
+}
+
+const Register: React.FC<RegisterProps> = ({ handleClose }) => {
   const [isLogin, setIsLogin] = React.useState<boolean>(false);
 
   return (
     <div className="grid grid-cols-2 w-full h-full min-h-120">
       <div className="w-full h-full relative">
         <div
-          className={`w-full h-full transition-all duration-900 ease-in-out flex absolute inset-0 top-0
+          className={`w-full h-full transition-all duration-900 ease-in-out flex absolute inset-0 top-0 
           ${
             isLogin
-              ? "translate-x-full opacity-0"
-              : "translate-x-0 opacity-100 left-0"
+              ? "translate-x-full opacity-0 z-0"
+              : "translate-x-0 opacity-100 left-0 z-10"
           }`}
         >
-          <RegisterForm />
+          <RegisterForm handleClose={handleClose} />
         </div>
         <div
-          className={`w-full h-full transition-all duration-900 ease-in-out absolute inset-0 top-0 flex items-start justify-end  
+          className={`w-full h-full transition-all duration-900 ease-in-out absolute inset-0 top-0 flex items-start justify-end
           ${
             isLogin
-              ? "translate-x-full opacity-100 right-0"
-              : "translate-x-0  opacity-0"
+              ? "translate-x-full opacity-100 right-0 z-10"
+              : "translate-x-0  opacity-0 z-0"
           }`}
         >
-          <LoginForm />
+          <LoginForm handleClose={handleClose} />
         </div>
       </div>
 

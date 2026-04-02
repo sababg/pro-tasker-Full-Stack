@@ -1,5 +1,7 @@
 import * as React from "react";
-import { type SubmitHandler, useForm } from "react-hook-form";
+import { type SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { api } from "../../clients/api";
+import { useUser } from "../../context/UserContext";
 
 type Inputs = {
   username: string;
@@ -8,43 +10,46 @@ type Inputs = {
   confirmPassword: string;
 };
 
-const RegisterForm: React.FC = () => {
+interface RegisterFormProps {
+  handleClose: () => void;
+}
+
+const RegisterForm: React.FC<RegisterFormProps> = ({ handleClose }) => {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm<Inputs>({
     mode: "all",
   });
   const [message, setMessage] = React.useState<string | null>(null);
+  const { setUser } = useUser();
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     setMessage(null);
     try {
-      const res = await fetch("http://localhost:8080/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const { data } = await api.post("/register", formData);
 
-      const json = await res.json();
-      if (!res.ok) {
-        setMessage(json.message || "Registration failed");
-        return;
+      if (data.token) {
+        localStorage.setItem("token", data.token);
       }
+      localStorage.setItem("token", data.token);
 
-      if (json.token) {
-        localStorage.setItem("token", json.token);
-      }
+      setUser(data.user);
+
       setMessage("Registration successful");
+      handleClose();
     } catch (err) {
       setMessage("Network error");
       console.error(err);
     }
   };
 
-  const password = watch("password");
+  const password = useWatch({
+    control,
+    name: "password",
+  });
 
   return (
     <>

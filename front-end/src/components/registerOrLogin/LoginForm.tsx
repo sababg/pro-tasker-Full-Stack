@@ -1,12 +1,18 @@
 import * as React from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { api } from "../../clients/api";
+import { useUser } from "../../context/UserContext";
 
 type Inputs = {
   email: string;
   password: string;
 };
 
-const LoginForm: React.FC = () => {
+interface LoginFormProps {
+  handleClose: () => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ handleClose }) => {
   const {
     register,
     handleSubmit,
@@ -15,26 +21,19 @@ const LoginForm: React.FC = () => {
     mode: "all",
   });
   const [message, setMessage] = React.useState<string | null>(null);
+  const { setUser } = useUser();
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     setMessage(null);
     try {
-      const res = await fetch("http://localhost:8080/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      const json = await res.json();
-      if (!res.ok) {
-        setMessage(json.message || "Login failed");
-        return;
+      const { data } = await api.post("/login", formData);
+      if (data.token) {
+        localStorage.setItem("token", data.token);
       }
 
-      if (json.token) {
-        localStorage.setItem("token", json.token);
-      }
+      setUser(data.user);
       setMessage("Login successful");
+      handleClose();
     } catch (err) {
       setMessage("Network error");
       console.error(err);

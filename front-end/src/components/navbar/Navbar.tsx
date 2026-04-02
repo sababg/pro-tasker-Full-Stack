@@ -12,7 +12,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsRegisterOpen }) => {
           onClick={() => setIsRegisterOpen((prev) => !prev)}
           className="cursor-pointer bg-Green100 text-black px-4 py-2 rounded"
         >
-          Register
+          Register/Login
         </button>
       </div>
     </nav>
