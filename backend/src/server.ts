@@ -8,7 +8,17 @@ const app = express();
 
 const port = process.env.PORT || 8080;
 
-app.use(cors());
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+
+app.use(
+  cors({
+    origin: FRONTEND_URL,
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["Authorization"],
+  }),
+);
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
