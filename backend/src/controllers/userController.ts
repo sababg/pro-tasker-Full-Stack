@@ -66,7 +66,7 @@ const login = async (req: Request, res: Response) => {
       expiresIn: expiration,
     });
 
-    res.status(200).json({ token });
+    res.status(200).json({ token, user: currentUSer });
   } catch (err) {
     if (err instanceof Error) {
       console.error(err.message);
@@ -78,7 +78,20 @@ const login = async (req: Request, res: Response) => {
   }
 };
 
+const getMe = async (req: Request, res: Response) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "Not authorized" });
+  }
+
+  return res.json({
+    _id: req.user._id,
+    username: req.user.username,
+    email: req.user.email,
+  });
+};
+
 export default {
   register,
   login,
+  getMe,
 };

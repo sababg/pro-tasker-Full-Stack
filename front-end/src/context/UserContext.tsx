@@ -33,7 +33,7 @@ function UserProvider({ children }: { children: ReactNode }) {
 
     localStorage.removeItem("token");
 
-    navigate("/login");
+    navigate("/");
   };
 
   useEffect(() => {
@@ -41,7 +41,7 @@ function UserProvider({ children }: { children: ReactNode }) {
       try {
         if (!token()) return;
 
-        const { data } = await api.get("/");
+        const { data } = await api.get("/me");
 
         setUser(data);
       } catch (err) {

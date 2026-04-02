@@ -30,7 +30,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleClose }) => {
       if (data.token) {
         localStorage.setItem("token", data.token);
       }
-
+      console.log("data", data);
       setUser(data.user);
       setMessage("Login successful");
       handleClose();

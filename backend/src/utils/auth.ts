@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import User from "../models/User";
 
 const secret = process.env.JWT_SECRET || "";
 
@@ -27,7 +28,19 @@ export async function authMiddleware(
 
     const { data } = jwt.verify(token, secret) as CustomJwtPayload;
 
-    req.user = data;
+    const user = await User.findById(data._id).populate("password");
+
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    const safeUser = {
+      _id: user._id.toString(),
+      email: user.email,
+      username: user.username,
+    };
+
+    req.user = safeUser;
 
     next();
   } catch (err) {

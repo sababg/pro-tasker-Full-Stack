@@ -9,7 +9,7 @@ interface RegisterProps {
 }
 
 const Register: React.FC<RegisterProps> = ({ handleClose }) => {
-  const [isLogin, setIsLogin] = React.useState<boolean>(false);
+  const [isLogin, setIsLogin] = React.useState<boolean>(true);
 
   return (
     <div className="grid grid-cols-2 w-full h-full min-h-120">
