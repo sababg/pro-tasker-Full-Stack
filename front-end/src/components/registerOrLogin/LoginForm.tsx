@@ -1,5 +1,6 @@
 import * as React from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { api } from "../../clients/api";
 import { useUser } from "../../context/UserContext";
 
@@ -13,6 +14,8 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ handleClose }) => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -33,6 +36,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleClose }) => {
       setUser(data.user);
       setMessage("Login successful");
       handleClose();
+      navigate("/projects");
     } catch (err) {
       setMessage("Network error");
       console.error(err);

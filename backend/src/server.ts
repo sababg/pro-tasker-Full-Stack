@@ -3,6 +3,7 @@ import "dotenv/config";
 import express from "express";
 import "./db/connection";
 import projectRoutes from "./routes/projectRoutes";
+import taskRoutes from "./routes/taskRoutes";
 import userRoutes from "./routes/userRoutes";
 
 const app = express();
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
 
 app.use("/api", userRoutes);
 app.use("/api/projects", projectRoutes);
+app.use("/api/projects", taskRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

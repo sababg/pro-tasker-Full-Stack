@@ -3,9 +3,10 @@ import mongoose from "mongoose";
 export interface ITask extends Document {
   title: string;
   description: string;
+  date: Date;
   project: mongoose.Types.ObjectId;
   assignedTo: mongoose.Types.ObjectId;
-  status: "To Do" | "In Progress" | "Done";
+  status: "To Do" | "In Progress" | "Done" | "overdue";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,9 +23,14 @@ const taskSchema: mongoose.Schema<ITask> = new mongoose.Schema(
       trim: true,
       default: "",
     },
+    date: {
+      type: Date,
+      trim: true,
+      default: new Date(),
+    },
     status: {
       type: String,
-      enum: ["To Do", "In Progress", "Done"],
+      enum: ["To Do", "In Progress", "Done", "overdue"],
       default: "To Do",
     },
     project: {

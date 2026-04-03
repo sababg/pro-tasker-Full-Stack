@@ -24,7 +24,7 @@ const createProject = async (req: Request, res: Response) => {
       res.status(400).json({ message: err.message });
     } else {
       console.error("Unknown error");
-      res.status(400).json({ message: "Something went wrong" });
+      res.status(500).json({ message: "Something went wrong" });
     }
   }
 };
@@ -87,8 +87,14 @@ const getProjectById = async (
     }
 
     res.json(project);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error(err.message);
+      res.status(400).json({ message: err.message });
+    } else {
+      console.error("Unknown error");
+      res.status(500).json({ message: "Something went wrong" });
+    }
   }
 };
 
@@ -141,8 +147,14 @@ const addCollaborator = async (
     await project.save();
 
     res.json({ message: `${userToAdd.username} added as collaborator` });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error(err.message);
+      res.status(400).json({ message: err.message });
+    } else {
+      console.error("Unknown error");
+      res.status(500).json({ message: "Something went wrong" });
+    }
   }
 };
 
@@ -198,8 +210,14 @@ const removeCollaborator = async (
     await project.save();
 
     res.json({ message: `${userToRemove.username} removed as collaborator` });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error(err.message);
+      res.status(400).json({ message: err.message });
+    } else {
+      console.error("Unknown error");
+      res.status(500).json({ message: "Something went wrong" });
+    }
   }
 };
 
@@ -234,8 +252,14 @@ const updateProject = async (
 
     const updatedProject = await project.save();
     res.json(updatedProject);
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error(err.message);
+      res.status(400).json({ message: err.message });
+    } else {
+      console.error("Unknown error");
+      res.status(500).json({ message: "Something went wrong" });
+    }
   }
 };
 
@@ -266,8 +290,14 @@ const deleteProject = async (
     await project.deleteOne();
 
     res.json({ message: "Project and its tasks removed successfully" });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error(err.message);
+      res.status(400).json({ message: err.message });
+    } else {
+      console.error("Unknown error");
+      res.status(500).json({ message: "Something went wrong" });
+    }
   }
 };
 

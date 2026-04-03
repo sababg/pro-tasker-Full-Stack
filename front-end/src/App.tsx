@@ -5,6 +5,7 @@ import CreateProject from "./components/projects/CreateProject";
 import Project from "./components/projects/Project";
 import Projects from "./components/projects/Projects";
 import Register from "./components/registerOrLogin/Register";
+import Tasks from "./components/tasks/Tasks";
 import { Modal } from "./components/utils/modal/Modal";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -20,6 +21,14 @@ function App() {
       <Navbar setIsRegisterOpen={setIsRegisterOpen} />
       <div className="py-5 h-[92%] w-full">
         <Routes>
+          <Route
+            path="/create-project"
+            element={
+              <ProtectedRoute isAuthenticated={true}>
+                <CreateProject />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/projects"
             element={
@@ -37,10 +46,10 @@ function App() {
             }
           />
           <Route
-            path="/create-project"
+            path="/projects/:id/tasks"
             element={
               <ProtectedRoute isAuthenticated={true}>
-                <CreateProject />
+                <Tasks />
               </ProtectedRoute>
             }
           />

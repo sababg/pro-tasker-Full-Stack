@@ -4,10 +4,11 @@ import { type ReactNode, useEffect } from "react";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  className?: string;
   children: ReactNode;
 }
 
-export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+export const Modal = ({ isOpen, onClose, className, children }: ModalProps) => {
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -26,7 +27,9 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center w-full">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
 
-      <div className="relative bg-white rounded-2xl shadow-lg py-6 px-9 w-[50%] z-10">
+      <div
+        className={`relative bg-white rounded-2xl shadow-lg py-6 px-9 ${className || "w-[50%]"} z-10`}
+      >
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-500 hover:text-black cursor-pointer"

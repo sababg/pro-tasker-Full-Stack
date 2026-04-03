@@ -1,5 +1,6 @@
 import * as React from "react";
 import { type SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { api } from "../../clients/api";
 import { useUser } from "../../context/UserContext";
 
@@ -15,6 +16,8 @@ interface RegisterFormProps {
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ handleClose }) => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -40,6 +43,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ handleClose }) => {
 
       setMessage("Registration successful");
       handleClose();
+      navigate("/projects");
     } catch (err) {
       setMessage("Network error");
       console.error(err);

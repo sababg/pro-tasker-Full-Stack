@@ -49,12 +49,18 @@ const Project: React.FC = () => {
 
   return (
     <div className="w-full px-7">
-      <div className="bg-Green50 border border-solid border-white px-5 py-7 h-auto rounded-2xl relative shadow-Green400 hover:shadow-Green500 transition">
+      <div
+        onClick={() => navigate(`/projects/${id}/tasks`)}
+        className="bg-Green50 border border-solid border-white px-5 py-7 h-auto rounded-2xl relative shadow-Green400 hover:shadow-Green500 transition"
+      >
         <div className="flex items-baseline justify-between w-full">
           <h5 className="font-semibold mb-5 max-w-[90%] break-all">
             {project?.name}
           </h5>
-          <div className="w-[10%] flex justify-end">
+          <div
+            className="w-[10%] flex justify-end"
+            onClick={(e) => e.stopPropagation()}
+          >
             <DropDown
               icon={
                 <BsThreeDotsVertical className="text-gray-500 cursor-pointer" />
@@ -71,6 +77,10 @@ const Project: React.FC = () => {
                 {
                   label: "Delete",
                   onClick: () => setIsDeleteOpen(true),
+                },
+                {
+                  label: "Tasks",
+                  onClick: () => navigate(`/projects/${id}/tasks`),
                 },
               ]}
             />
