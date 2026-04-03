@@ -65,7 +65,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({
     <div className="flex flex-col items-center justify-center w-full h-full">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={`flex flex-col items-start justify-start gap-7 ${project ? "w-full" : "w-[50%]"} bg-white rounded-xl p-5`}
+        className={`flex flex-col items-start justify-start gap-7 ${project ? "w-full" : "sm:w-[50%] w-[90%]"} bg-white rounded-xl sm:p-5 p-0`}
       >
         <div className="flex flex-col items-start justify-start gap-2 w-full">
           <label htmlFor="name">Name</label>

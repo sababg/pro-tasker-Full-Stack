@@ -12,27 +12,39 @@ const Navbar: React.FC<NavbarProps> = ({ setIsRegisterOpen }) => {
 
   return (
     <nav className="flex items-center justify-between bg-white px-3 py-3.5 h-[8%] w-full z-20">
-      <div></div>
-      <div>
-        <NavLink
-          to="/projects"
-          className={({ isActive }) =>
-            isActive
-              ? "font-bold border-b-2 border-solid border-b-Green400 pb-2"
-              : ""
-          }
-        >
-          Projects
-        </NavLink>
-      </div>
+      <div>LOGO</div>
+      {user && (
+        <div className="sm:flex hidden items-baseline justify-center gap-10">
+          <NavLink
+            to="/projects"
+            className={({ isActive }) =>
+              isActive
+                ? "font-bold border-b-2 border-solid border-b-Green400 pb-2"
+                : ""
+            }
+          >
+            Projects
+          </NavLink>
+          <NavLink
+            to="/create-project"
+            className={({ isActive }) =>
+              isActive
+                ? "font-bold border-b-2 border-solid border-b-Green400 pb-2"
+                : ""
+            }
+          >
+            Create Project
+          </NavLink>
+        </div>
+      )}
+
       {user ? (
         <>
           <DropDown
             title={user.username || ""}
             menuItems={[
-              { label: "Profile", href: "/profile" },
-              { label: "Settings", href: "/settings" },
               { label: "Create Project", href: "/create-project" },
+              { label: "Projects", href: "/projects" },
               { label: "Logout", onClick: () => logout() },
             ]}
           />

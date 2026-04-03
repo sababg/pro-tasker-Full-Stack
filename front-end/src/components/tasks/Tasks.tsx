@@ -67,7 +67,66 @@ const Tasks: React.FC = () => {
       </div>
       <div className="h-[80%] mt-5 w-full flex justify-center">
         <div className="w-[90%] bg-white rounded-2xl px-7 py-9">
-          <table className="w-full overflow-auto border-Green400 border border-solid rounded-[10px] text-black border-separate border-spacing-0">
+          <div className="flex flex-col gap-3 sm:hidden">
+            {tasks?.map((task) => (
+              <div
+                key={task._id}
+                onClick={() => navigate(`/projects/${id}/tasks/${task._id}`)}
+                className="bg-white border border-Green400 rounded-[10px] p-4 cursor-pointer hover:bg-green-50 transition"
+              >
+                <div className="flex justify-between items-start">
+                  <div className="flex flex-col gap-2 w-full">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-400 text-sm">Task title</span>
+                      <span className="font-medium">{task.title}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-400 text-sm">Assigned</span>
+                      <span>{task.assignedTo?.username}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-400 text-sm">Deadline</span>
+                      <span>{new Date(task.date)?.toLocaleDateString()}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-400 text-sm">Status</span>
+                      {dateIsValid(task.date) ? (
+                        <RedContainedButton
+                          text="Overdue"
+                          type="button"
+                          className="w-[40%]"
+                        />
+                      ) : (
+                        <GreenContainedButton
+                          text={task.status}
+                          type="button"
+                          className="w-[40%]"
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <div onClick={(e) => e.stopPropagation()} className="ml-2">
+                    <DropDown
+                      icon={
+                        <BsThreeDotsVertical className="text-gray-500 cursor-pointer" />
+                      }
+                      menuItems={[
+                        {
+                          label: "Update",
+                          onClick: () => setIsUpdateOpen(true),
+                        },
+                        {
+                          label: "Delete",
+                          onClick: () => setIsDeleteOpen(true),
+                        },
+                      ]}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <table className="w-full sm:table hidden overflow-auto border-Green400 border border-solid rounded-[10px] text-black border-separate border-spacing-0">
             <thead>
               <tr className="overflow-hidden">
                 <th className="p-3 bg-gray-50 border-b border-Green400 rounded-t-[10px]">

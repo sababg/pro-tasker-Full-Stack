@@ -65,7 +65,9 @@ const UserSearchInput = ({ users, onAdd }: Props) => {
                     {user.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-700">{user}</p>
+                    <p className="sm:text-sm text-xs font-medium text-gray-700">
+                      {user}
+                    </p>
                     <p className="text-xs text-gray-400">{user}</p>
                   </div>
                 </div>
@@ -76,7 +78,7 @@ const UserSearchInput = ({ users, onAdd }: Props) => {
                     setQuery("");
                     setIsOpen(false);
                   }}
-                  className="flex cursor-pointer items-center gap-1 text-xs bg-Green300 hover:bg-Green400 text-black px-3 py-1 rounded-lg transition"
+                  className="flex cursor-pointer items-center gap-1 sm:text-xs text-[8px] bg-Green300 hover:bg-Green400 text-black px-3 py-1 rounded-lg transition"
                 >
                   <FiPlus size={12} />
                   Add

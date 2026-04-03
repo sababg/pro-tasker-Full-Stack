@@ -48,7 +48,7 @@ const Project: React.FC = () => {
   }, [id, navigate]);
 
   return (
-    <div className="w-full px-7">
+    <div className="w-full px-7 h-full overflow-auto">
       <div
         onClick={() => navigate(`/projects/${id}/tasks`)}
         className="bg-Green50 border border-solid border-white px-5 py-7 h-auto rounded-2xl relative shadow-Green400 hover:shadow-Green500 transition"

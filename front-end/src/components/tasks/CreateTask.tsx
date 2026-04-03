@@ -110,7 +110,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
     <div className="flex flex-col items-center justify-center w-full max-h-[90%] overflow-hidden">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className={`flex overflow-auto flex-col items-start justify-start gap-7 w-full bg-white rounded-xl p-5`}
+        className={`flex overflow-auto flex-col items-start justify-start gap-7 w-full bg-white rounded-xl sm:p-5 p-0`}
       >
         <div className="flex flex-col items-start justify-start gap-2 w-full">
           <label htmlFor="title">Title</label>

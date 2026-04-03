@@ -12,10 +12,10 @@ const Register: React.FC<RegisterProps> = ({ handleClose }) => {
   const [isLogin, setIsLogin] = React.useState<boolean>(true);
 
   return (
-    <div className="grid grid-cols-2 w-full h-full min-h-120">
+    <div className="grid sm:grid-cols-2 grid-cols-1 w-full h-full min-h-120">
       <div className="w-full h-full relative">
         <div
-          className={`w-full h-full transition-all duration-900 ease-in-out flex absolute inset-0 top-0 
+          className={`w-full h-full transition-all duration-900 ease-in-out flex absolute  inset-0 sm:top-0 
           ${
             isLogin
               ? "translate-x-full opacity-0 z-0"
@@ -28,7 +28,7 @@ const Register: React.FC<RegisterProps> = ({ handleClose }) => {
           className={`w-full h-full transition-all duration-900 ease-in-out absolute inset-0 top-0 flex items-start justify-end
           ${
             isLogin
-              ? "translate-x-full opacity-100 right-0 z-10"
+              ? "sm:translate-x-full translate-x-0 opacity-100 sm:right-0 z-10"
               : "translate-x-0  opacity-0 z-0"
           }`}
         >
@@ -37,15 +37,15 @@ const Register: React.FC<RegisterProps> = ({ handleClose }) => {
       </div>
 
       <div
-        className={`w-full h-full flex flex-col items-center justify-center bg-Green200 py-3 transition-all duration-900 ease-in-out 
-            ${isLogin ? "-translate-x-full" : "translate-x-0"}`}
+        className={`w-full sm:h-full h-auto flex flex-col sm:items-center items-start justify-start mt-4 sm:justify-center sm:bg-Green200 bg-transparent py-3 transition-all duration-900 ease-in-out 
+            ${isLogin ? "sm:-translate-x-full translate-x-0" : "translate-x-0"}`}
       >
-        <div className="relative w-full h-full overflow-hidden flex items-center justify-center">
+        <div className="sm:flex hidden relative w-full h-full overflow-hidden items-center justify-center">
           <div
             className={`
-                       absolute inset-0 flex items-center justify-center h-full w-full
+                       sm:absolute relative inset-0 flex items-center justify-center h-full w-full
                         transition-transform duration-900 ease-in-out
-                        ${isLogin ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100"}
+                        ${isLogin ? "sm:-translate-x-full translate-x-0 opacity-0" : "translate-x-0 opacity-100"}
                       `}
           >
             <img src={RegisterPic} alt="Register" className="w-100 h-auto" />
@@ -53,7 +53,7 @@ const Register: React.FC<RegisterProps> = ({ handleClose }) => {
 
           <div
             className={`
-                        absolute inset-0 flex items-center justify-center h-full w-full
+                        sm:absolute relative inset-0 flex items-center justify-center h-full w-full
                         transition-transform duration-900 ease-in-out
                         ${isLogin ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"}
                       `}
@@ -62,7 +62,7 @@ const Register: React.FC<RegisterProps> = ({ handleClose }) => {
           </div>
         </div>
         <button
-          className="bg-Green300 rounded-2xl px-4 py-2 cursor-pointer"
+          className="bg-Green300 rounded-2xl px-4 py-2 cursor-pointer absolute bottom-5 left-1/2 transform -translate-x-1/2 sm:static sm:translate-x-0"
           onClick={() => setIsLogin((prev) => !prev)}
         >
           {isLogin ? "Register" : "Login"}

@@ -97,7 +97,7 @@ const CollaboratorModal: React.FC<CollaboratorModalProps> = ({
             {collaborators?.map((collaborator) => (
               <div
                 key={collaborator.email}
-                className="flex items-center justify-start gap-1.5"
+                className="flex items-center justify-between gap-1.5 w-full"
               >
                 <p>{collaborator.email}</p>
                 <RedContainedButton

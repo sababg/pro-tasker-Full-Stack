@@ -28,7 +28,7 @@ export const Modal = ({ isOpen, onClose, className, children }: ModalProps) => {
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
 
       <div
-        className={`relative bg-white rounded-2xl shadow-lg py-6 px-9 ${className || "w-[50%]"} z-10`}
+        className={`relative bg-white rounded-2xl max-h-[80%] overflow-auto shadow-lg py-6 px-9 ${className || "sm:w-[50%] w-[90%]"} z-10`}
       >
         <button
           onClick={onClose}
