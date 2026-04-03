@@ -1,10 +1,16 @@
 import mongoose from "mongoose";
 
+export interface IPopulatedUser {
+  _id: mongoose.Types.ObjectId;
+  name: string;
+  email: string;
+}
+
 export interface IProject extends Document {
   name: string;
   description: string;
-  owner: mongoose.Types.ObjectId;
-  collaborators: mongoose.Types.ObjectId[];
+  owner: mongoose.Types.ObjectId | IPopulatedUser;
+  collaborators: (mongoose.Types.ObjectId | IPopulatedUser)[];
   createdAt: Date;
   updatedAt: Date;
 }

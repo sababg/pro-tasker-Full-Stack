@@ -90,8 +90,25 @@ const getMe = async (req: Request, res: Response) => {
   });
 };
 
+const getAllEmails = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find({}, "email").lean();
+    const emails = users.map((u) => u.email).filter(Boolean);
+    return res.status(200).json({ emails });
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error(err.message);
+      res.status(400).json({ message: err.message });
+    } else {
+      console.error("Unknown error");
+      res.status(400).json({ message: "Something went wrong" });
+    }
+  }
+};
+
 export default {
   register,
   login,
   getMe,
+  getAllEmails,
 };

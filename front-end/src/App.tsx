@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { Route, Routes } from "react-router";
 import Navbar from "./components/navbar/Navbar";
 import CreateProject from "./components/projects/CreateProject";
+import Project from "./components/projects/Project";
 import Projects from "./components/projects/Projects";
 import Register from "./components/registerOrLogin/Register";
 import { Modal } from "./components/utils/modal/Modal";
@@ -24,6 +25,14 @@ function App() {
             element={
               <ProtectedRoute isAuthenticated={true}>
                 <Projects />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/projects/:id"
+            element={
+              <ProtectedRoute isAuthenticated={true}>
+                <Project />
               </ProtectedRoute>
             }
           />

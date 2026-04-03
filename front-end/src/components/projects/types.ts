@@ -1,7 +1,7 @@
 export interface IProjects {
   name: string;
   description: string;
-  owner: IOwner[];
+  owner: IOwner;
   collaborators: ICollaborator[];
   _id: string;
   createdAt: Date;

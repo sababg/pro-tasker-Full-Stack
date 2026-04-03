@@ -11,6 +11,7 @@ import { api, token } from "../clients/api";
 
 type User = {
   username: string | null;
+  email: string | null;
 };
 
 type UserContextType = {
@@ -21,7 +22,7 @@ type UserContextType = {
 
 const UserContext = createContext<UserContextType | null>(null);
 
-const initialUser = token() ? { username: null } : null;
+const initialUser = token() ? { username: null, email: null } : null;
 
 function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(initialUser);

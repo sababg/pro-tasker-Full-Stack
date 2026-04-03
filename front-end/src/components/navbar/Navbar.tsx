@@ -11,7 +11,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsRegisterOpen }) => {
   const { user, logout } = useUser();
 
   return (
-    <nav className="flex items-center justify-between bg-white px-3 py-3.5 h-[8%] w-full">
+    <nav className="flex items-center justify-between bg-white px-3 py-3.5 h-[8%] w-full z-20">
       <div></div>
       <div>
         <NavLink

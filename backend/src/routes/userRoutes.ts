@@ -9,5 +9,6 @@ router.post("/register", userController.register);
 router.post("/login", userController.login);
 router.use(authMiddleware);
 router.get("/me", userController.getMe);
+router.get("/emails", userController.getAllEmails);
 
 export default router;
