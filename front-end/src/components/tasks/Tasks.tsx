@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { api } from "../../clients/api";
 import {
   GreenContainedButton,
@@ -13,6 +13,7 @@ import type { ITasks } from "./types";
 
 const Tasks: React.FC = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [isCreateTaskOpen, setIsCreateTaskOpen] =
     React.useState<boolean>(false);
@@ -69,7 +70,8 @@ const Tasks: React.FC = () => {
               {tasks?.map((task, index) => (
                 <tr
                   key={task._id}
-                  className={`text-center ${index % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-green-50 transition`}
+                  onClick={() => navigate(`/projects/${id}/tasks/${task._id}`)}
+                  className={`text-center cursor-pointer ${index % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-green-50 transition`}
                 >
                   <td className="p-3">{task.title}</td>
                   <td className="p-3">{task.assignedTo?.username}</td>

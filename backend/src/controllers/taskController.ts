@@ -157,9 +157,41 @@ const getTaskById = async (req: Request, res: Response) => {
   }
 };
 
+const deleteTask = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+
+    await getAuthorizedProject(req.params.id, req.user._id, true);
+
+    const task = await Task.findOneAndDelete({
+      _id: req.params.taskId,
+      project: req.params.id,
+    });
+
+    if (!task) {
+      res.status(404);
+      throw new Error("Task not found");
+    }
+
+    res.json({ message: "Task removed successfully" });
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error(err.message);
+      res.status(400).json({ message: err.message });
+    } else {
+      console.error("Unknown error");
+      res.status(500).json({ message: "Something went wrong" });
+    }
+  }
+};
+
 export default {
   createTask,
   getProjectUsers,
   getTasks,
   getTaskById,
+  deleteTask,
 };

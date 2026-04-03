@@ -5,6 +5,7 @@ import CreateProject from "./components/projects/CreateProject";
 import Project from "./components/projects/Project";
 import Projects from "./components/projects/Projects";
 import Register from "./components/registerOrLogin/Register";
+import Task from "./components/tasks/Task";
 import Tasks from "./components/tasks/Tasks";
 import { Modal } from "./components/utils/modal/Modal";
 import ProtectedRoute from "./ProtectedRoute";
@@ -50,6 +51,14 @@ function App() {
             element={
               <ProtectedRoute isAuthenticated={true}>
                 <Tasks />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/projects/:id/tasks/:taskId"
+            element={
+              <ProtectedRoute isAuthenticated={true}>
+                <Task />
               </ProtectedRoute>
             }
           />
