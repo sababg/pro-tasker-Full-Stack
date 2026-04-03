@@ -1,21 +1,27 @@
 import * as React from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { api } from "../../clients/api";
+import { api, apiWithCallback } from "../../clients/api";
 import { useUser } from "../../context/UserContext";
+import { useLoading } from "../../hooks/useLoading";
+import Spinner from "../utils/spiner/Spinner";
 import Tooltip from "../utils/tooltip/Tooltip";
 import type { IProjects } from "./types";
 
 const Projects: React.FC = () => {
   const { user } = useUser();
   const navigate = useNavigate();
+  const { loading, setLoading } = useLoading();
 
   const [projects, setProjects] = React.useState<IProjects[]>([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const { data } = await api.get("/projects");
+        const { data } = await apiWithCallback(
+          () => api.get("/projects"),
+          () => setLoading(loading),
+        );
         setProjects(data);
       } catch (err) {
         console.error(err);
@@ -23,7 +29,11 @@ const Projects: React.FC = () => {
     }
 
     fetchData();
-  }, []);
+  }, [loading, setLoading]);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="w-full grid sm:grid-cols-4 gap-6 px-7">
