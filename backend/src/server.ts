@@ -15,9 +15,6 @@ console.log("FRONTEND_URL", FRONTEND_URL);
 app.use(
   cors({
     origin: FRONTEND_URL,
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    exposedHeaders: ["Authorization"],
   }),
 );
 
