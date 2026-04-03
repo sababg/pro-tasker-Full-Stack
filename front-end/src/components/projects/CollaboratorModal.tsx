@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as React from "react";
 import { useParams } from "react-router";
-import { api } from "../../clients/api";
+import { api, apiWithCallback } from "../../clients/api";
 import { RedContainedButton } from "../utils/button/Button";
 import UserSearchInput from "../utils/userSearchInput/UserSearchInput";
 import type { ICollaborator } from "./types";
@@ -36,7 +36,10 @@ const CollaboratorModal: React.FC<CollaboratorModalProps> = ({
   const handleAddCollaborator = React.useCallback(
     async (user: string) => {
       try {
-        await api.post(`/projects/${id}/collaborators`, { email: user });
+        await apiWithCallback(
+          () => api.post(`/projects/${id}/collaborators`, { email: user }),
+          () => fetchProjectData(),
+        );
         setMessage("Collaborator added successfully");
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -48,8 +51,6 @@ const CollaboratorModal: React.FC<CollaboratorModalProps> = ({
         } else {
           setMessage("Failed to add collaborator");
         }
-      } finally {
-        fetchProjectData();
       }
     },
     [fetchProjectData, id],
@@ -58,9 +59,14 @@ const CollaboratorModal: React.FC<CollaboratorModalProps> = ({
   const handleRemoveCollaborator = React.useCallback(
     async (user: string) => {
       try {
-        await api.delete(`/projects/${id}/collaborators`, {
-          data: { email: user },
-        });
+        await apiWithCallback(
+          () =>
+            api.delete(`/projects/${id}/collaborators`, {
+              data: { email: user },
+            }),
+          () => fetchProjectData(),
+        );
+
         setMessage("Collaborator removed successfully");
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -72,8 +78,6 @@ const CollaboratorModal: React.FC<CollaboratorModalProps> = ({
         } else {
           setMessage("Failed to remove collaborator");
         }
-      } finally {
-        fetchProjectData();
       }
     },
     [fetchProjectData, id],

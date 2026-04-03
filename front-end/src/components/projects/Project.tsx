@@ -6,6 +6,7 @@ import { useUser } from "../../context/UserContext";
 import DropDown from "../utils/dropDown/DropDown";
 import { Modal } from "../utils/modal/Modal";
 import CollaboratorModal from "./CollaboratorModal";
+import CreateProject from "./CreateProject";
 import type { IProjects } from "./types";
 
 const Project: React.FC = () => {
@@ -15,6 +16,7 @@ const Project: React.FC = () => {
   const [project, setProject] = React.useState<IProjects>();
   const [isCollaboratorsOpen, setIsCollaboratorsOpen] =
     React.useState<boolean>(false);
+  const [isUpdateOpen, setIsUpdateOpen] = React.useState<boolean>(false);
 
   const fetchProjectData = React.useCallback(async () => {
     try {
@@ -46,6 +48,10 @@ const Project: React.FC = () => {
                   label: "Collaborators",
                   onClick: () => setIsCollaboratorsOpen(true),
                 },
+                {
+                  label: "Update",
+                  onClick: () => setIsUpdateOpen(true),
+                },
               ]}
             />
           </div>
@@ -74,6 +80,13 @@ const Project: React.FC = () => {
         <CollaboratorModal
           collaborators={project?.collaborators || []}
           fetchProjectData={fetchProjectData}
+        />
+      </Modal>
+      <Modal isOpen={isUpdateOpen} onClose={() => setIsUpdateOpen(false)}>
+        <CreateProject
+          project={project}
+          onClose={() => setIsUpdateOpen(false)}
+          onSuccess={() => fetchProjectData()}
         />
       </Modal>
     </div>

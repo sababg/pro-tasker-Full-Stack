@@ -215,6 +215,11 @@ const updateProject = async (
       throw new Error("Project not found");
     }
 
+    if (!req.user) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+
     if (project.owner.toString() !== req.user._id.toString()) {
       res.status(403);
       throw new Error("Not authorized to update this project");
@@ -239,4 +244,5 @@ export default {
   getProjectById,
   addCollaborator,
   removeCollaborator,
+  updateProject,
 };
