@@ -1,8 +1,12 @@
 import * as React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { api } from "../../clients/api";
 import { useUser } from "../../context/UserContext";
+import {
+  GreenContainedButton,
+  RedContainedButton,
+} from "../utils/button/Button";
 import DropDown from "../utils/dropDown/DropDown";
 import { Modal } from "../utils/modal/Modal";
 import CollaboratorModal from "./CollaboratorModal";
@@ -12,11 +16,13 @@ import type { IProjects } from "./types";
 const Project: React.FC = () => {
   const { id } = useParams();
   const { user } = useUser();
+  const navigate = useNavigate();
 
   const [project, setProject] = React.useState<IProjects>();
   const [isCollaboratorsOpen, setIsCollaboratorsOpen] =
     React.useState<boolean>(false);
   const [isUpdateOpen, setIsUpdateOpen] = React.useState<boolean>(false);
+  const [isDeleteOpen, setIsDeleteOpen] = React.useState<boolean>(false);
 
   const fetchProjectData = React.useCallback(async () => {
     try {
@@ -30,6 +36,16 @@ const Project: React.FC = () => {
   React.useEffect(() => {
     fetchProjectData();
   }, [fetchProjectData]);
+
+  const handleDeleteProject = React.useCallback(async () => {
+    try {
+      await api.delete(`/projects/${id}`);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      navigate("/projects");
+    }
+  }, [id, navigate]);
 
   return (
     <div className="w-full px-7">
@@ -51,6 +67,10 @@ const Project: React.FC = () => {
                 {
                   label: "Update",
                   onClick: () => setIsUpdateOpen(true),
+                },
+                {
+                  label: "Delete",
+                  onClick: () => setIsDeleteOpen(true),
                 },
               ]}
             />
@@ -88,6 +108,23 @@ const Project: React.FC = () => {
           onClose={() => setIsUpdateOpen(false)}
           onSuccess={() => fetchProjectData()}
         />
+      </Modal>
+      <Modal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)}>
+        <div>
+          <p>Are you sure you want to delete this project?</p>
+          <div className="flex items-center justify-between w-full mt-10">
+            <GreenContainedButton
+              text="Delete"
+              type="button"
+              onClick={handleDeleteProject}
+            />
+            <RedContainedButton
+              text="Cancel"
+              type="button"
+              onClick={() => setIsDeleteOpen(false)}
+            />
+          </div>
+        </div>
       </Modal>
     </div>
   );

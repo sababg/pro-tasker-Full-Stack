@@ -1,43 +1,42 @@
 import mongoose from "mongoose";
 
 export interface ITask extends Document {
-  name: string;
+  title: string;
   description: string;
-  owner: mongoose.Types.ObjectId;
-  collaborators: mongoose.Types.ObjectId[];
-  status: "pending" | "in-Progress" | "completed" | "overdue";
+  project: mongoose.Types.ObjectId;
+  assignedTo: mongoose.Types.ObjectId;
+  status: "To Do" | "In Progress" | "Done";
   createdAt: Date;
   updatedAt: Date;
 }
 
 const taskSchema: mongoose.Schema<ITask> = new mongoose.Schema(
   {
-    name: {
+    title: {
       type: String,
-      required: [true, "Task name is required"],
+      required: [true, "Task title is required"],
       trim: true,
     },
     description: {
       type: String,
-      default: "",
       trim: true,
+      default: "",
     },
     status: {
       type: String,
-      enum: ["pending", "in-Progress", "completed", "overdue"],
-      default: "pending",
+      enum: ["To Do", "In Progress", "Done"],
+      default: "To Do",
     },
-    owner: {
+    project: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Project",
       required: true,
     },
-    collaborators: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    assignedTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   { timestamps: true },
 );

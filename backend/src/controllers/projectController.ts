@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Project, { IPopulatedUser } from "../models/Project";
+import Task from "../models/Task";
 import User from "../models/User";
 
 const createProject = async (req: Request, res: Response) => {
@@ -238,10 +239,43 @@ const updateProject = async (
   }
 };
 
+const deleteProject = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const project = await Project.findById(req.params.id);
+
+    if (!project) {
+      res.status(404);
+      throw new Error("Project not found");
+    }
+
+    if (!req.user) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+
+    if (project.owner.toString() !== req.user._id.toString()) {
+      res.status(403);
+      throw new Error("Not authorized to delete this project");
+    }
+
+    await Task.deleteMany({ project: project._id });
+    await project.deleteOne();
+
+    res.json({ message: "Project and its tasks removed successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createProject,
   getProjects,
   getProjectById,
+  deleteProject,
   addCollaborator,
   removeCollaborator,
   updateProject,
