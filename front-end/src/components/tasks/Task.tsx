@@ -2,12 +2,8 @@ import * as React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router";
 import { api } from "../../clients/api";
-import {
-  GreenContainedButton,
-  RedContainedButton,
-} from "../utils/button/Button";
 import DropDown from "../utils/dropDown/DropDown";
-import { Modal } from "../utils/modal/Modal";
+import TaskModal from "./TaskModal";
 import type { ITasks } from "./types";
 
 const Task: React.FC = () => {
@@ -31,7 +27,7 @@ const Task: React.FC = () => {
     fetchProjectData();
   }, [fetchProjectData]);
 
-  const handleDeleteProject = React.useCallback(async () => {
+  const handleDeleteTask = React.useCallback(async () => {
     try {
       await api.delete(`/projects/${id}/tasks/${taskId}`);
     } catch (err) {
@@ -40,12 +36,10 @@ const Task: React.FC = () => {
       navigate(`/projects/${id}/tasks`);
     }
   }, [id, navigate, taskId]);
+
   return (
     <div className="w-full px-7">
-      <div
-        onClick={() => navigate(`/projects/${id}/tasks`)}
-        className="bg-Green50 border border-solid border-white px-5 py-7 h-auto rounded-2xl relative shadow-Green400 hover:shadow-Green500 transition"
-      >
+      <div className="bg-Green50 border border-solid border-white px-5 py-7 h-auto rounded-2xl relative shadow-Green400 hover:shadow-Green500 transition">
         <div className="flex items-baseline justify-between w-full">
           <h5 className="font-semibold mb-5 max-w-[90%] break-all">
             {task?.title}
@@ -89,30 +83,15 @@ const Task: React.FC = () => {
         <p className="mt-2.5">{task?.description}</p>
       </div>
 
-      {/* <Modal isOpen={isUpdateOpen} onClose={() => setIsUpdateOpen(false)}>
-        <CreateProject
-          project={task}
-          onClose={() => setIsUpdateOpen(false)}
-          onSuccess={() => fetchProjectData()}
-        />
-      </Modal> */}
-      <Modal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)}>
-        <div>
-          <p>Are you sure you want to delete this task?</p>
-          <div className="flex items-center justify-between w-full mt-10">
-            <GreenContainedButton
-              text="Delete"
-              type="button"
-              onClick={handleDeleteProject}
-            />
-            <RedContainedButton
-              text="Cancel"
-              type="button"
-              onClick={() => setIsDeleteOpen(false)}
-            />
-          </div>
-        </div>
-      </Modal>
+      <TaskModal
+        fetchProjectData={fetchProjectData}
+        handleDeleteProject={handleDeleteTask}
+        isDeleteOpen={isDeleteOpen}
+        setIsDeleteOpen={setIsDeleteOpen}
+        isUpdateOpen={isUpdateOpen}
+        setIsUpdateOpen={setIsUpdateOpen}
+        task={task}
+      />
     </div>
   );
 };

@@ -36,7 +36,6 @@ const CreateTask: React.FC<CreateTaskProps> = ({
   const fetchUserData = React.useCallback(async () => {
     try {
       const { data } = await api.get(`/projects/${id}/users`);
-      console.log("data", data);
       setUsers(data.users);
     } catch (err) {
       console.error(err);
@@ -51,16 +50,33 @@ const CreateTask: React.FC<CreateTaskProps> = ({
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>({
     mode: "all",
     defaultValues: {
-      title: task?.title || "",
-      description: task?.description || "",
-      status: task?.status || "To Do",
-      date: task?.date || new Date(),
+      title: "",
+      description: "",
+      status: "To Do",
+      assignedTo: "",
+      date: new Date(),
     },
   });
+
+  React.useEffect(() => {
+    if (task && users.length > 0) {
+      setValue("title", task.title || "");
+      setValue("description", task.description || "");
+      setValue("status", task.status || "To Do");
+      setValue("assignedTo", task.assignedTo._id?.toString() || "");
+      setValue(
+        "date",
+        task.date
+          ? (new Date(task.date).toISOString().split("T")[0] as unknown as Date)
+          : new Date(),
+      );
+    }
+  }, [task, users, setValue]);
 
   const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     try {
@@ -154,6 +170,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({
             <option value="To Do">To Do</option>
             <option value="In Progress">In Progress</option>
             <option value="Done">Done</option>
+            {task && <option value="overdue">Overdue</option>}
           </select>
           {errors.status && (
             <span className="inline-block text-Red400">Status is required</span>
