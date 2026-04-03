@@ -2,6 +2,10 @@
 
 A full-stack collaborative task management application built with **React**, **Node.js/Express**, **TypeScript**, and **MongoDB**. Pro Tasker allows users to register, create projects, invite collaborators, and manage tasks — all behind JWT-based authentication.
 
+# backend-live: https://pro-tasker-backend-bv18.onrender.com
+
+# frontend-live: https://grand-pie-1cd4ae.netlify.app
+
 ---
 
 ## Tech Stack
