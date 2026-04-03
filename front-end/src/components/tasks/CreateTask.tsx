@@ -6,6 +6,7 @@ import {
   GreenContainedButton,
   RedContainedButton,
 } from "../utils/button/Button";
+import { dateIsValid } from "../utils/dateIsValid/DateIsValid";
 import type { IAssignedTo, ITasks, TaskStatus } from "./types";
 
 type Inputs = {
@@ -71,8 +72,16 @@ const CreateTask: React.FC<CreateTaskProps> = ({
         setMessage("Project updated successfully");
         onClose();
       } else {
-        await api.post(`/projects/${id}/task`, formData);
+        await apiWithCallback(
+          () =>
+            api.post(`/projects/${id}/task`, {
+              ...formData,
+              status: dateIsValid(formData.date) ? "overdue" : formData.status,
+            }),
+          () => onSuccess?.(),
+        );
         setMessage("Project created successfully");
+        onClose();
       }
       reset();
     } catch (err) {

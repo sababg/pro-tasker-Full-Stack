@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.use(authMiddleware);
 router.post("/:id/task", taskController.createTask);
+router.get("/:id/task", taskController.getTasks);
+router.get("/:id/tasks/:taskId", taskController.getTaskById);
 
 router.get("/:id/users", taskController.getProjectUsers);
 

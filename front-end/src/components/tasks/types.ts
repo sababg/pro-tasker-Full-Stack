@@ -1,5 +1,4 @@
 export interface ITasks {
-  owner: IOwner;
   _id: string;
   createdAt: Date;
   updatedAt: Date;
@@ -13,12 +12,6 @@ export interface ITasks {
 
 export interface IProject {
   _id: string;
-}
-
-export interface IOwner {
-  _id: string;
-  username: string;
-  email: string;
 }
 
 export interface IAssignedTo {

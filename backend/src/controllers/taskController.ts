@@ -99,7 +99,67 @@ const createTask = async (req: Request, res: Response) => {
   }
 };
 
+const getTasks = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+
+    await getAuthorizedProject(req.params.id, req.user._id, false);
+
+    const tasks = await Task.find({ project: req.params.id })
+      .sort({
+        createdAt: -1,
+      })
+      .populate("assignedTo", "username email");
+
+    res.json(tasks);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error(err.message);
+      res.status(400).json({ message: err.message });
+    } else {
+      console.error("Unknown error");
+      res.status(500).json({ message: "Something went wrong" });
+    }
+  }
+};
+
+const getTaskById = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
+
+    await getAuthorizedProject(req.params.id, req.user._id, false);
+
+    const tasks = await Task.findById(req.params.taskId).populate(
+      "assignedTo",
+      "username email",
+    );
+
+    if (!tasks) {
+      res.status(404);
+      throw new Error("Task not found");
+    }
+
+    res.json(tasks);
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error(err.message);
+      res.status(400).json({ message: err.message });
+    } else {
+      console.error("Unknown error");
+      res.status(500).json({ message: "Something went wrong" });
+    }
+  }
+};
+
 export default {
   createTask,
   getProjectUsers,
+  getTasks,
+  getTaskById,
 };
