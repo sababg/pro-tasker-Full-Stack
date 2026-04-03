@@ -11,7 +11,7 @@ const app = express();
 const port = process.env.PORT || 8080;
 
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
-
+console.log("FRONTEND_URL", FRONTEND_URL);
 app.use(
   cors({
     origin: FRONTEND_URL,
