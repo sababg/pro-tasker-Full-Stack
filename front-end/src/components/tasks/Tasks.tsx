@@ -25,6 +25,7 @@ const Tasks: React.FC = () => {
   const [isDeleteOpen, setIsDeleteOpen] = React.useState<boolean>(false);
 
   const fetchTaskData = React.useCallback(async () => {
+    setTasks([]);
     try {
       const { data } = await api.get(`/projects/${id}/task`);
       setTasks(data);
